@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)https://keiwo.ltd/cat/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10px; /* Reduce padding for smaller screens */
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            margin-bottom: 10px; /* Reduce margin for the title */
+            color: #4CAF50;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        #results {
+            width: 90%;
+            max-width: 600px;
+            margin: 10px 0; /* Reduce vertical margin for the results container */
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        #results p {
+            margin: 10px 0;
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: center; /* Center-align content */
+            font-size: 0.9rem;
+            word-wrap: break-word;
+        }
+
+        #results p:last-child {
+            border-bottom: none;
+        }
+
+        button {
+            margin: 3px; /* Reduce button margin */
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 90%;
+            max-width: 300px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:active {
+            background-color: #3e8e41;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 5px; /* Further reduce padding for very small screens */
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 8px; /* Further reduce margin for the title */
+            }
+
+            button {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+                margin: 2px; /* Further reduce button margin */
+            }
+
+            #results p {
+                font-size: 0.8rem;
+            }
+
+            #results {
+                margin: 8px 0; /* Further reduce vertical margin for the results container */
+            }
+        }
+    </style>
+    <script>
+        let timerInterval;
+        let startTime;
+
+        function generateRandomNumbers() {
+            const resultsContainer = document.getElementById('results');
+            const timerElement = document.getElementById('timer');
+            timerElement.style.display = 'none'; // Hide the timer initially
+            timerElement.textContent = ''; // Clear previous timer text
+
+            resultsContainer.innerHTML = ''; // Clear previous results
+
+            // Start the timer
+            startTime = Date.now();
+            if (timerInterval) clearInterval(timerInterval);
+
+            timerInterval = setInterval(() => {
+                const elapsedTime = ((Date.now() - startTime) / 1000).toFixed(0);
+                timerElement.textContent = `Elapsed Time: ${elapsedTime}s`;
+            }, 100);
+
+            for (let i = 0; i < 10; i++) {
+                const num1 = (Math.random() * (999 - 11) + 11).toFixed(0);
+                const num2 = (Math.random() * (9999 - 11) + 11).toFixed(0);
+                const result = (
+                    (parseFloat(num1)) / (parseFloat(num2) ) 
+                ).toFixed(4) + '';
+
+                const resultRow = document.createElement('p');
+                resultRow.dataset.result = result; // Store the result in a data attribute
+                resultRow.dataset.resultVisible = 'false'; // Mark the result as hidden by default
+                resultRow.textContent = `${num1} / ${num2}`;
+                resultsContainer.appendChild(resultRow);
+            }
+
+            // Reset the toggle button to "Show Results" state
+            const toggleButton = document.getElementById('toggleButton');
+            toggleButton.textContent = 'Show Results';
+        }
+
+        function toggleResultsVisibility() {
+            const resultElements = document.querySelectorAll('#results p');
+            const toggleButton = document.getElementById('toggleButton');
+            const timerElement = document.getElementById('timer');
+
+            if (toggleButton.textContent === 'Show Results') {
+                clearInterval(timerInterval); // Stop the timer
+                timerElement.style.display = 'block'; // Show the timer
+            }
+
+            resultElements.forEach(element => {
+                if (element.dataset.resultVisible === 'true') {
+                    const parts = element.textContent.split(' = ');
+                    element.textContent = parts[0]; // Hide the result
+                    element.dataset.resultVisible = 'false';
+                } else {
+                    const num1AndNum2 = element.textContent;
+                    const result = element.dataset.result;
+                    element.textContent = `${num1AndNum2} = ${result}`; // Show the result
+                    element.dataset.resultVisible = 'true';
+                }
+            });
+
+            toggleButton.textContent = toggleButton.textContent === 'Hide Results' ? 'Show Results' : 'Hide Results';
+        }
+
+        window.onload = () => {
+            generateRandomNumbers();
+        };
+    </script>
+</head>
+<body>
+    <h1></h1>
+    <div id="results"><p data-result="12.0392%" data-result-visible="false">9.2%    2.6%</p><p data-result="15.1313%" data-result-visible="false">7.7%    6.9%</p><p data-result="8.6825%" data-result-visible="false">1.1%    7.5%</p><p data-result="9.2314%" data-result-visible="false">7.3%    1.8%</p><p data-result="10.5412%" data-result-visible="false">6.7%    3.6%</p><p data-result="9.4922%" data-result-visible="false">6.2%    3.1%</p><p data-result="5.7770%" data-result-visible="false">3.5%    2.2%</p><p data-result="10.4457%" data-result-visible="false">6.3%    3.9%</p><p data-result="14.7930%" data-result-visible="false">5.8%    8.5%</p><p data-result="15.3998%" data-result-visible="false">9.8%    5.1%</p></div>
+    <div id="timer" style="display: none; margin-top: 10px; font-size: 1rem; color: #555;">Elapsed Time: 20s</div>
+    <button onclick="generateRandomNumbers()">Generate</button>
+    <button id="toggleButton" onclick="toggleResultsVisibility()">Show Results</button>
+
+<deepl-input-controller translate="no"><template shadowrootmode="open"><link rel="stylesheet" href="chrome-extension://fancfknaplihpclbhbpclnmmjcjanbaf/build/content.css"><div dir="ltr" style="visibility: initial !important;"><div class="dl-input-translation-container svelte-95aucy"><div></div></div></div></template></deepl-input-controller></body></html>
